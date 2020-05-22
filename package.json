@@ -65,12 +65,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blaise2s/tap-vote-ng.git"
+    "url": "git+https://github.com/Tap-Vote/Tap-Vote-Ng.git"
   },
   "author": "Blaise Schaeffer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/blaise2s/tap-vote-ng/issues"
+    "url": "https://github.com/Tap-Vote/Tap-Vote-Ng/issues"
   },
   "husky": {
     "hooks": {
