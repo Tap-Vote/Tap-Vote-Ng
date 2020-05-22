@@ -131,7 +131,7 @@ export class QuestionnaireModalComponent implements OnInit {
     );
   }
 
-  onAddSection(sectionIdx: number): void {
+  onAddSection(): void {
     const sections = this.questionnaireForm.get('sections') as FormArray;
     sections.push(
       this.fb.group({
