@@ -1,0 +1,31 @@
+<!-- src/app/login/login.component.html -->
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill" class="pad-right">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" email required type="email" />
+    <mat-error *ngIf="!valid('email')">Email is required.</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      required
+      minlength="8"
+      type="password"
+    />
+    <mat-error *ngIf="!valid('password')"
+      >Minimum 8 characters, at least one capital, number, and special
+      character.</mat-error
+    >
+  </mat-form-field>
+  <button
+    id="submit"
+    mat-flat-button
+    color="primary"
+    type="submit"
+    [disabled]="!loginForm.valid"
+  >
+    Login
+  </button>
+</form>

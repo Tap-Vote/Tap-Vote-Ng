@@ -1,0 +1,18 @@
+// src/app/questionnaire-modal/questionnaire-modal.component.scss
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.question {
+  padding-right: 1rem;
+}
+
+.section {
+  padding-right: 1rem;
+}
+
+mat-form-field {
+  width: 15rem;
+}
