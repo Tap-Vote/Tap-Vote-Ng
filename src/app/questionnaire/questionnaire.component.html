@@ -1,0 +1,20 @@
+<!-- src/app/questionnaire/questionnaire.component.html -->
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav class="sidenav" #sidenav mode="side" opened>
+    <mat-action-list class="questionnaire-list">
+      <button mat-list-item (click)="onNew()" class="create-new">
+        New Questionnaire
+      </button>
+      <button
+        mat-list-item
+        *ngFor="let questionnaire of questionnaires"
+        (click)="onEdit(questionnaire.id)"
+      >
+        {{ questionnaire.name }}
+      </button>
+    </mat-action-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

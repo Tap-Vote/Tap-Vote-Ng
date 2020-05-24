@@ -11,11 +11,14 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$tap-vote-ng-primary: mat-palette($mat-deep-purple);
-$tap-vote-ng-accent: mat-palette($mat-amber, A200, A100, A400);
+// $tap-vote-ng-primary: mat-palette($mat-deep-purple);
+// $tap-vote-ng-accent: mat-palette($mat-amber, A200, A100, A400);
+$tap-vote-ng-primary: mat-palette($mat-grey, 500);
+$tap-vote-ng-accent: mat-palette($mat-cyan, 300);
 
 // The warn palette is optional (defaults to red).
-$tap-vote-ng-warn: mat-palette($mat-red);
+$tap-vote-ng-warn: mat-palette($mat-red, A400);
+// $tap-vote-ng-warn: mat-palette($mat-red, A700);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $tap-vote-ng-theme: mat-light-theme(
@@ -39,5 +42,5 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Titillium Web', sans-serif, 'Helvetica Neue';
 }

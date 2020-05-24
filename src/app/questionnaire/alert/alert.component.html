@@ -1,0 +1,7 @@
+<!-- src/app/questionnaire/alert/alert.component.html -->
+<h2>Unsaved Changes</h2>
+<p>Are you sure you want to leave without saving?</p>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">No</button>
+  <button mat-button color="warn" (click)="onConfirm()">Yes</button>
+</mat-dialog-actions>

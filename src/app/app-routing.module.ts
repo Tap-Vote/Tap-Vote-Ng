@@ -3,37 +3,53 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DesignerComponent } from 'src/app/designer/designer.component';
-import { ViewerComponent } from 'src/app/viewer/viewer.component';
-import { QuestionnaireResolver } from 'src/app/questionnaire-modal/questionnaire.resolver';
+import { QuestionnaireResolver } from 'src/app/questionnaire/questionnaire.resolver';
 import { LoginComponent } from 'src/app/login/login.component';
 import { AuthGuard } from 'src/app/auth.guard';
+import { QuestionnaireComponent } from 'src/app/questionnaire/questionnaire.component';
+import { EditComponent as EditQuestionnaireComponent } from 'src/app/questionnaire/edit/edit.component';
+import { CanDeactivateGuard } from 'src/app/can-deactivate.guard';
+import { HomeComponent } from 'src/app/home/home.component';
+import { TestingComponent } from 'src/app/testing/testing.component';
+import { PublishedResolver } from 'src/app/questionnaire/published.resolver';
 
 const routes: Routes = [
   {
-    path: 'designer',
-    component: DesignerComponent,
-    canActivate: [AuthGuard]
+    path: 'published/:id',
+    component: TestingComponent,
+    resolve: { questionnaire: PublishedResolver }
   },
-  // {
-  //   path: 'presenter/:id',
-  //   component: ViewerComponent,
-  //   resolve: { questionnaire: QuestionnaireResolver }
-  // },
-  // {
-  //   path: 'player/:id',
-  //   component: ViewerComponent,
-  //   resolve: { questionnaire: QuestionnaireResolver }
-  // },
   {
-    path: 'designer/:id',
-    component: ViewerComponent,
-    resolve: { questionnaire: QuestionnaireResolver },
-    canActivate: [AuthGuard]
+    path: 'questionnaires',
+    component: QuestionnaireComponent,
+    children: [
+      {
+        path: 'new',
+        component: EditQuestionnaireComponent,
+        canActivate: [AuthGuard],
+        canDeactivate: [CanDeactivateGuard]
+      },
+      {
+        path: ':id',
+        component: EditQuestionnaireComponent,
+        resolve: { questionnaire: QuestionnaireResolver },
+        canActivate: [AuthGuard],
+        canDeactivate: [CanDeactivateGuard]
+      }
+    ]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: LoginComponent,
+    data: { signup: true }
   },
   {
     path: '',
-    component: LoginComponent
+    component: HomeComponent
   }
 ];
 

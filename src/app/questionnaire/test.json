@@ -1,0 +1,225 @@
+{
+  "published": {
+    "8a789d23-57cd-43e8-81a9-44c10f15d968": {
+      "id": "8a789d23-57cd-43e8-81a9-44c10f15d968",
+      "name": "World Soccer",
+      "sections": [
+        {
+          "name": "Champions League",
+          "questions": [
+            {
+              "answer": "Real Madrid: 13",
+              "question": "What team has won the most Champions League titles? Bonus point for the number of titles they have won.",
+              "type": 0
+            }
+          ]
+        }
+      ],
+      "uid": "888cyjS5F9MBxKFFJumPsnxbSYl2"
+    },
+    "9ebd6b38-6c2d-4fd2-abf1-4f06221d705a": {
+      "id": "9ebd6b38-6c2d-4fd2-abf1-4f06221d705a",
+      "name": "Trivia",
+      "sections": [
+        {
+          "name": "Presidents",
+          "questions": [
+            {
+              "answer": "George Washington",
+              "question": "Who was the first president?",
+              "type": 0
+            },
+            {
+              "answer": "Theodore Roosevelt",
+              "question": "What president created the National Park System?",
+              "type": 0
+            },
+            {
+              "answer": "Abraham Lincoln",
+              "question": "What president abolished slavery?",
+              "type": 0
+            },
+            {
+              "answer": "Franklin D. Roosevelt",
+              "question": "Who was the first president to fly on Air Force One?",
+              "type": 0
+            }
+          ]
+        },
+        {
+          "name": "Geography",
+          "questions": [
+            {
+              "answer": "Mount Everest",
+              "question": "What is the tallest mountain by highest elevation?",
+              "type": 0
+            },
+            {
+              "answer": "Mauna Kea",
+              "question": "What is the tallest mountain by most elevation change from base to summit?",
+              "type": 0
+            },
+            {
+              "answer": "13",
+              "question": "How many provinces and territories does Canada have?",
+              "type": 0
+            },
+            {
+              "answer": "Red River",
+              "question": "What is the name of the river that runs between Texas and Oklahoma?",
+              "type": 0
+            }
+          ]
+        },
+        {
+          "name": "Cycling",
+          "questions": [
+            {
+              "answer": "3: Giro di Italia, Tour de France, Vuelta a España",
+              "question": "How many grand tours are there? Bonus point for each one you can name.",
+              "type": 0
+            },
+            {
+              "answer": "5",
+              "question": "How many Tours de France did Eddy Merckx win?",
+              "type": 0
+            },
+            {
+              "answer": "1903",
+              "question": "What year was the first Tour de France?",
+              "type": 0
+            },
+            {
+              "answer": "Search Results Web Result with Site Links  Union Cycliste Internationale (UCI)",
+              "question": "What is the governing body of professional cycling across the world?",
+              "type": 0
+            }
+          ]
+        }
+      ],
+      "uid": "zpQ6k5ainEOAf65eR53hLSxkm5Y2"
+    }
+  },
+  "questionnaires": {
+    "888cyjS5F9MBxKFFJumPsnxbSYl2": {
+      "8a789d23-57cd-43e8-81a9-44c10f15d968": {
+        "id": "8a789d23-57cd-43e8-81a9-44c10f15d968",
+        "name": "World Soccer",
+        "sections": [
+          {
+            "name": "Champions League",
+            "questions": [
+              {
+                "answer": "Real Madrid: 13",
+                "question": "What team has won the most Champions League titles? Bonus point for the number of titles they have won.",
+                "type": 0
+              }
+            ]
+          }
+        ],
+        "uid": "888cyjS5F9MBxKFFJumPsnxbSYl2"
+      }
+    },
+    "zpQ6k5ainEOAf65eR53hLSxkm5Y2": {
+      "9ebd6b38-6c2d-4fd2-abf1-4f06221d705a": {
+        "id": "9ebd6b38-6c2d-4fd2-abf1-4f06221d705a",
+        "name": "Trivia",
+        "sections": [
+          {
+            "name": "Presidents",
+            "questions": [
+              {
+                "answer": "George Washington",
+                "question": "Who was the first president?",
+                "type": 0
+              },
+              {
+                "answer": "Theodore Roosevelt",
+                "question": "What president created the National Park System?",
+                "type": 0
+              },
+              {
+                "answer": "Abraham Lincoln",
+                "question": "What president abolished slavery?",
+                "type": 0
+              },
+              {
+                "answer": "Franklin D. Roosevelt",
+                "question": "Who was the first president to fly on Air Force One?",
+                "type": 0
+              }
+            ]
+          },
+          {
+            "name": "Geography",
+            "questions": [
+              {
+                "answer": "Mount Everest",
+                "question": "What is the tallest mountain by highest elevation?",
+                "type": 0
+              },
+              {
+                "answer": "Mauna Kea",
+                "question": "What is the tallest mountain by most elevation change from base to summit?",
+                "type": 0
+              },
+              {
+                "answer": "13",
+                "question": "How many provinces and territories does Canada have?",
+                "type": 0
+              },
+              {
+                "answer": "Red River",
+                "question": "What is the name of the river that runs between Texas and Oklahoma?",
+                "type": 0
+              }
+            ]
+          },
+          {
+            "name": "Cycling",
+            "questions": [
+              {
+                "answer": "3: Giro di Italia, Tour de France, Vuelta a España",
+                "question": "How many grand tours are there? Bonus point for each one you can name.",
+                "type": 0
+              },
+              {
+                "answer": "5",
+                "question": "How many Tours de France did Eddy Merckx win?",
+                "type": 0
+              },
+              {
+                "answer": "1903",
+                "question": "What year was the first Tour de France?",
+                "type": 0
+              },
+              {
+                "answer": "Search Results Web Result with Site Links  Union Cycliste Internationale (UCI)",
+                "question": "What is the governing body of professional cycling across the world?",
+                "type": 0
+              }
+            ]
+          }
+        ],
+        "uid": "zpQ6k5ainEOAf65eR53hLSxkm5Y2"
+      },
+      "b45be087-9d21-46dc-94dc-125dbd5171dc": {
+        "id": "b45be087-9d21-46dc-94dc-125dbd5171dc",
+        "name": "Testing",
+        "sections": [
+          {
+            "name": "1",
+            "questions": [
+              {
+                "answer": "3",
+                "question": "2",
+                "type": 0
+              }
+            ]
+          }
+        ],
+        "uid": "zpQ6k5ainEOAf65eR53hLSxkm5Y2"
+      }
+    }
+  }
+}

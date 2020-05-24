@@ -1,0 +1,28 @@
+<!-- src/app/header/header.component.html -->
+<mat-toolbar class="header" color="accent">
+  <nav class="navigation">
+    <div class="brand">Tap Vote</div>
+    <div>
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+        <!-- <mat-icon>account_circle</mat-icon> -->
+        <mat-icon>perm_identity</mat-icon>
+      </button>
+    </div>
+  </nav>
+  <mat-menu #profileMenu="matMenu">
+    <div *ngIf="loggedIn(); else login">
+      <button mat-menu-item (click)="onProfile()">
+        Profile
+      </button>
+      <!-- <mat-divider></mat-divider> -->
+      <button mat-menu-item (click)="onLogout()">
+        Logout
+      </button>
+    </div>
+    <ng-template #login>
+      <button mat-menu-item (click)="onLogin()">Login</button>
+      <button mat-menu-item (click)="onCreateAccount()">Create Account</button>
+    </ng-template>
+  </mat-menu>
+</mat-toolbar>
+<div class="header-shadow"></div>

@@ -1,0 +1,280 @@
+<!-- src/app/questionnaire/edit/edit.component.html -->
+<div class="add-section">
+  <button mat-mini-fab (click)="onAddSection()" matTooltip="Add section">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<div [formGroup]="questionnaireForm">
+  <div class="header">
+    <div>
+      <textarea
+        class="name-input"
+        [ngClass]="{ error: !validQuestionnaireName() }"
+        type="text"
+        required
+        matInput
+        formControlName="name"
+        placeholder="Questionnaire Name*"
+        data-gramm_editor="false"
+      ></textarea>
+      <div class="error-message" *ngIf="!validQuestionnaireName()">
+        Name is required
+      </div>
+      <div
+        class="error-message-placeholder"
+        *ngIf="validQuestionnaireName()"
+      ></div>
+    </div>
+  </div>
+  <div class="sections" formArrayName="sections">
+    <mat-card
+      class="section"
+      *ngFor="let section of sections().controls; index as sectionIdx"
+      [formGroupName]="sectionIdx"
+    >
+      <div class="section-header">
+        <div>
+          <textarea
+            type="text"
+            required
+            matInput
+            [ngClass]="{ error: !validSectionName(sectionIdx) }"
+            formControlName="name"
+            placeholder="Section Name*"
+            class="section-input"
+            data-gramm_editor="false"
+          ></textarea>
+          <div class="error-message" *ngIf="!validSectionName(sectionIdx)">
+            Section name is required
+          </div>
+          <div
+            class="error-message-placeholder"
+            *ngIf="validSectionName(sectionIdx)"
+          ></div>
+        </div>
+        <button
+          mat-mini-fab
+          color="primary"
+          [matMenuTriggerFor]="addQuestionMenu"
+          matTooltip="Add question"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <mat-menu #addQuestionMenu="matMenu">
+        <button mat-menu-item (click)="onAddFreeResponseQuestion(sectionIdx)">
+          Free Response
+        </button>
+        <button
+          mat-menu-item
+          (click)="onAddMultipleChoiceSingleResponseQuestion(sectionIdx)"
+        >
+          Multiple Choice Single Response
+        </button>
+        <button
+          mat-menu-item
+          (click)="onAddMultipleChoiceMultipleResponseQuestion(sectionIdx)"
+        >
+          Multiple Choice Multiple Response
+        </button>
+      </mat-menu>
+      <div class="section-content" formArrayName="questions">
+        <div
+          *ngFor="
+            let questionGroup of questions(sectionIdx).controls;
+            index as questionIdx
+          "
+          [ngSwitch]="questionGroup.get('type').value"
+        >
+          <div
+            *ngSwitchCase="0"
+            class="free-response"
+            [formGroupName]="questionIdx"
+          >
+            <mat-form-field class="fr-question">
+              <mat-label>Question</mat-label>
+              <textarea
+                class="input-textarea"
+                formControlName="question"
+                matInput
+                required
+                type="text"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+            <mat-form-field class="fr-answer">
+              <mat-label>Answer</mat-label>
+              <textarea
+                class="input-textarea"
+                formControlName="answer"
+                matInput
+                required
+                type="text"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+            <button
+              mat-icon-button
+              (click)="onDeleteQuestion(sectionIdx, questionIdx)"
+              [disabled]="questions(sectionIdx).length <= 1"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <div
+            *ngSwitchCase="1"
+            class="multiple-choice"
+            [formGroupName]="questionIdx"
+          >
+            <mat-form-field class="mc-question">
+              <mat-label>Question</mat-label>
+              <textarea
+                class="input-textarea"
+                formControlName="question"
+                matInput
+                required
+                type="text"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+            <button
+              mat-mini-fab
+              color="primary"
+              matTooltip="Add answer"
+              (click)="onAddMultipleChoiceAnswer(sectionIdx, questionIdx)"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="onDeleteQuestion(sectionIdx, questionIdx)"
+              [disabled]="questions(sectionIdx).length <= 1"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <div formArrayName="answer">
+              <mat-form-field
+                *ngFor="
+                  let answerGroup of answers(sectionIdx, questionIdx).controls;
+                  index as answerIndex
+                "
+                class="mc-answer"
+              >
+                <mat-label>Answer</mat-label>
+                <textarea
+                  class="input-textarea"
+                  [formControlName]="answerIndex"
+                  matInput
+                  required
+                  type="text"
+                  rows="3"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div
+            *ngSwitchCase="2"
+            class="multiple-choice"
+            [formGroupName]="questionIdx"
+          >
+            <mat-form-field class="mc-question">
+              <mat-label>Question</mat-label>
+              <textarea
+                class="input-textarea"
+                formControlName="question"
+                matInput
+                required
+                type="text"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+            <button
+              mat-mini-fab
+              color="primary"
+              matTooltip="Add answer"
+              (click)="onAddMultipleChoiceAnswer(sectionIdx, questionIdx)"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="onDeleteQuestion(sectionIdx, questionIdx)"
+              [disabled]="questions(sectionIdx).length <= 1"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <span class="multiple-response">Multiple Response</span>
+            <div formArrayName="answer">
+              <mat-form-field
+                *ngFor="
+                  let answerGroup of answers(sectionIdx, questionIdx).controls;
+                  index as answerIndex
+                "
+                class="mc-answer"
+              >
+                <mat-label>Answer</mat-label>
+                <textarea
+                  class="input-textarea"
+                  [formControlName]="answerIndex"
+                  matInput
+                  required
+                  type="text"
+                  rows="3"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <button
+          mat-button
+          color="accent"
+          (click)="onDeleteSection(sectionIdx)"
+          [disabled]="sections().length <= 1"
+        >
+          Delete Section
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<div class="actions">
+  <button
+    mat-flat-button
+    color="warn"
+    (click)="onDelete()"
+    class="delete"
+    [disabled]="!questionnaire"
+  >
+    Delete
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onUnList()"
+    class="un-list"
+    [disabled]="!editing"
+    matTooltip="Make questionnaire private"
+  >
+    Un list
+  </button>
+  <button
+    mat-flat-button
+    color="accent"
+    (click)="onList()"
+    class="list"
+    [disabled]="questionnaireForm.invalid || !editing || changes"
+    matTooltip="Make questionnaire public and copy sharable link to clipboard"
+  >
+    List
+  </button>
+  <button
+    mat-flat-button
+    color="accent"
+    (click)="onSave()"
+    [disabled]="questionnaireForm.invalid || !changes"
+  >
+    Save
+  </button>
+</div>
