@@ -2,10 +2,17 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="sidenav" #sidenav mode="side" opened>
     <mat-action-list class="questionnaire-list">
-      <button mat-list-item (click)="onNew()" class="create-new">
+      <button
+        mat-list-item
+        class="create-new"
+        routerLink="/questionnaires/new"
+        routerLinkActive="active-new"
+      >
         New Questionnaire
       </button>
       <button
+        [routerLink]="'/questionnaires/' + questionnaire.id"
+        routerLinkActive="active"
         mat-list-item
         *ngFor="let questionnaire of questionnaires"
         (click)="onEdit(questionnaire.id)"

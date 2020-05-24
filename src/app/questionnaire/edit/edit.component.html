@@ -4,7 +4,7 @@
     <mat-icon>add</mat-icon>
   </button>
 </div>
-<div [formGroup]="questionnaireForm">
+<div *ngIf="!loading" [formGroup]="questionnaireForm">
   <div class="header">
     <div>
       <textarea
@@ -29,7 +29,7 @@
   <div class="sections" formArrayName="sections">
     <mat-card
       class="section"
-      *ngFor="let section of sections().controls; index as sectionIdx"
+      *ngFor="let sectionGroup of sections().controls; index as sectionIdx"
       [formGroupName]="sectionIdx"
     >
       <div class="section-header">
@@ -65,17 +65,8 @@
         <button mat-menu-item (click)="onAddFreeResponseQuestion(sectionIdx)">
           Free Response
         </button>
-        <button
-          mat-menu-item
-          (click)="onAddMultipleChoiceSingleResponseQuestion(sectionIdx)"
-        >
-          Multiple Choice Single Response
-        </button>
-        <button
-          mat-menu-item
-          (click)="onAddMultipleChoiceMultipleResponseQuestion(sectionIdx)"
-        >
-          Multiple Choice Multiple Response
+        <button mat-menu-item (click)="onAddMultipleChoiceQuestion(sectionIdx)">
+          Multiple Choice
         </button>
       </mat-menu>
       <div class="section-content" formArrayName="questions">
@@ -152,76 +143,41 @@
             >
               <mat-icon>delete</mat-icon>
             </button>
-            <div formArrayName="answer">
-              <mat-form-field
+            <div formArrayName="answer" class="mc-answers">
+              <div
                 *ngFor="
-                  let answerGroup of answers(sectionIdx, questionIdx).controls;
-                  index as answerIndex
+                  let answerControl of answers(sectionIdx, questionIdx)
+                    .controls;
+                  index as answerIdx
                 "
-                class="mc-answer"
               >
-                <mat-label>Answer</mat-label>
-                <textarea
-                  class="input-textarea"
-                  [formControlName]="answerIndex"
-                  matInput
-                  required
-                  type="text"
-                  rows="3"
-                ></textarea>
-              </mat-form-field>
-            </div>
-          </div>
-          <div
-            *ngSwitchCase="2"
-            class="multiple-choice"
-            [formGroupName]="questionIdx"
-          >
-            <mat-form-field class="mc-question">
-              <mat-label>Question</mat-label>
-              <textarea
-                class="input-textarea"
-                formControlName="question"
-                matInput
-                required
-                type="text"
-                rows="3"
-              ></textarea>
-            </mat-form-field>
-            <button
-              mat-mini-fab
-              color="primary"
-              matTooltip="Add answer"
-              (click)="onAddMultipleChoiceAnswer(sectionIdx, questionIdx)"
-            >
-              <mat-icon>add</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              (click)="onDeleteQuestion(sectionIdx, questionIdx)"
-              [disabled]="questions(sectionIdx).length <= 1"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-            <span class="multiple-response">Multiple Response</span>
-            <div formArrayName="answer">
-              <mat-form-field
-                *ngFor="
-                  let answerGroup of answers(sectionIdx, questionIdx).controls;
-                  index as answerIndex
-                "
-                class="mc-answer"
-              >
-                <mat-label>Answer</mat-label>
-                <textarea
-                  class="input-textarea"
-                  [formControlName]="answerIndex"
-                  matInput
-                  required
-                  type="text"
-                  rows="3"
-                ></textarea>
-              </mat-form-field>
+                <div class="mc-answer">
+                  <mat-form-field class="mc-answer-input">
+                    <mat-label>Answer</mat-label>
+                    <textarea
+                      class="input-textarea"
+                      [formControlName]="answerIdx"
+                      matInput
+                      required
+                      type="text"
+                      rows="3"
+                    ></textarea>
+                  </mat-form-field>
+                  <button
+                    mat-icon-button
+                    (click)="
+                      onDeleteMultipleChoiceAnswer(
+                        sectionIdx,
+                        questionIdx,
+                        answerIdx
+                      )
+                    "
+                    [disabled]="answers(sectionIdx, questionIdx).length <= 2"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -238,6 +194,9 @@
       </div>
     </mat-card>
   </div>
+</div>
+<div *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div class="actions">
   <button

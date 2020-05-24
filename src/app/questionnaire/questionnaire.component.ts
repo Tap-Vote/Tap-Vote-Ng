@@ -8,8 +8,7 @@ import { QuestionnaireService } from 'src/app/questionnaire/questionnaire.servic
 
 export enum QuestionType {
   FREE_RESPONSE,
-  MULTIPLE_CHOICE_SINGLE_RESPONSE,
-  MULTIPLE_CHOICE_MULTIPLE_RESPONSE
+  MULTIPLE_CHOICE
 }
 
 export interface Question {
@@ -39,6 +38,7 @@ export interface Questionnaire {
 export class QuestionnaireComponent implements OnInit, OnDestroy {
   questionnaires: Questionnaire[] = [];
   private subs = new Subscription();
+  private selectedQuestionnaireId: string;
 
   constructor(
     private questionnaireService: QuestionnaireService,
@@ -55,6 +55,11 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.questionnaireService.refresh.subscribe(() => {
         this.fetchQuestionnaires();
+      })
+    );
+    this.subs.add(
+      this.questionnaireService.selected.subscribe((id) => {
+        this.selectedQuestionnaireId = id;
       })
     );
   }
@@ -89,10 +94,9 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   }
 
   onEdit(id: string): void {
-    this.router.navigate([id], { relativeTo: this.route });
-  }
-
-  onNew(): void {
-    this.router.navigate(['new'], { relativeTo: this.route });
+    if (this.selectedQuestionnaireId !== id) {
+      this.selectedQuestionnaireId = id;
+      this.questionnaireService.loading.next();
+    }
   }
 }

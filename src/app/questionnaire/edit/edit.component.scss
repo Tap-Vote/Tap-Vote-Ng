@@ -77,15 +77,15 @@ $accent: #4dd0e1;
 
 .section {
   margin: 0.5rem 0.5rem;
-  min-width: 30rem;
-  max-width: 30rem;
+  min-width: 35rem;
+  max-width: 35rem;
   min-height: 5rem;
   // max-height: 30rem;
   flex: 1 1 auto;
 }
 
 .section-content {
-  max-height: 25rem;
+  max-height: 25.55rem;
   overflow: auto;
 }
 
@@ -127,7 +127,6 @@ $accent: #4dd0e1;
 .free-response {
   font-size: 1rem;
   display: flex;
-  justify-content: center;
 }
 
 .multiple-choice {
@@ -141,15 +140,23 @@ $accent: #4dd0e1;
 
 .fr-question,
 .fr-answer,
-.mc-question,
-.mc-answer {
-  width: 14rem;
+.mc-question {
+  width: 15.5rem;
 }
+
+.mc-answer-input {
+  width: 14.75rem;
+}
+
 .footer {
   padding-top: 1rem;
 }
 
-.multiple-response {
-  color: $accent;
-  font-size: 0.75rem;
+.mc-answers {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mc-answer {
+  display: flex;
 }

@@ -36,12 +36,14 @@ import { AuthService, UserData } from 'src/app/auth.service';
 })
 export class EditComponent
   implements OnInit, OnDestroy, CanComponentDeactivate {
+  loading: boolean;
   editing: boolean;
   changes: boolean;
   questionnaire: Questionnaire;
   questionnaireForm: FormGroup;
   private user: UserData;
   private subs = new Subscription();
+  private changesSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,20 +60,35 @@ export class EditComponent
   }
 
   ngOnInit(): void {
-    this.changes = false;
-
-    this.route.data.subscribe((data) => {
-      const questionnaire = data['questionnaire'];
-      if (questionnaire) {
-        this.questionnaire = questionnaire;
-        this.editing = true;
-      } else {
-        this.editing = false;
-      }
-      this.initForm();
-    });
-
     this.user = this.authService.user();
+
+    this.subs.add(
+      this.questionnaireService.loading.subscribe(() => {
+        this.loading = true;
+        if (this.changesSub) {
+          this.subs.remove(this.changesSub);
+          this.changesSub.unsubscribe();
+        }
+      })
+    );
+
+    this.subs.add(
+      this.route.data.subscribe((data) => {
+        this.changes = false;
+
+        const questionnaire = data['questionnaire'];
+        if (questionnaire) {
+          this.questionnaireService.selected.next(questionnaire.id);
+          this.questionnaire = questionnaire;
+          this.editing = true;
+        } else {
+          this.editing = false;
+        }
+
+        this.initForm();
+        this.loading = false;
+      })
+    );
   }
 
   private questionTypeValidator(): ValidatorFn {
@@ -90,8 +107,7 @@ export class EditComponent
           answer: this.fb.control(question.answer, [Validators.required])
         });
 
-      case QuestionType.MULTIPLE_CHOICE_SINGLE_RESPONSE:
-      case QuestionType.MULTIPLE_CHOICE_MULTIPLE_RESPONSE:
+      case QuestionType.MULTIPLE_CHOICE:
         return this.fb.group({
           type: this.fb.control(question.type, [this.questionTypeValidator]),
           question: this.fb.control(question.question, [Validators.required]),
@@ -149,11 +165,15 @@ export class EditComponent
       });
     }
 
-    this.subs.add(
-      this.questionnaireForm.valueChanges.subscribe(() => {
-        this.changes = true;
-      })
-    );
+    this.changesSub = this.questionnaireForm.valueChanges.subscribe(() => {
+      this.changes = true;
+    });
+    this.subs.add(this.changesSub);
+    // this.subs.add(
+    //   this.questionnaireForm.valueChanges.subscribe(() => {
+    //     this.changes = true;
+    //   })
+    // );
   }
 
   validQuestionnaireName(): boolean {
@@ -213,40 +233,20 @@ export class EditComponent
     );
   }
 
-  private addMultipleChoiceQuestion(
-    type:
-      | QuestionType.MULTIPLE_CHOICE_SINGLE_RESPONSE
-      | QuestionType.MULTIPLE_CHOICE_MULTIPLE_RESPONSE,
-    sectionIdx: number
-  ): void {
-    console.log(type);
-    console.log(sectionIdx);
-
+  onAddMultipleChoiceQuestion(sectionIdx: number): void {
     const section = this.section(sectionIdx);
     const questions = section.get('questions') as FormArray;
     questions.push(
       this.fb.group({
-        type: this.fb.control(type, [this.questionTypeValidator]),
+        type: this.fb.control(QuestionType.MULTIPLE_CHOICE, [
+          this.questionTypeValidator
+        ]),
         question: this.fb.control('', [Validators.required]),
         answer: this.fb.array([
           this.fb.control('', [Validators.required]),
           this.fb.control('', [Validators.required])
         ])
       })
-    );
-  }
-
-  onAddMultipleChoiceSingleResponseQuestion(sectionIdx: number): void {
-    this.addMultipleChoiceQuestion(
-      QuestionType.MULTIPLE_CHOICE_SINGLE_RESPONSE,
-      sectionIdx
-    );
-  }
-
-  onAddMultipleChoiceMultipleResponseQuestion(sectionIdx: number): void {
-    this.addMultipleChoiceQuestion(
-      QuestionType.MULTIPLE_CHOICE_MULTIPLE_RESPONSE,
-      sectionIdx
     );
   }
 
@@ -284,6 +284,17 @@ export class EditComponent
     }
   }
 
+  onDeleteMultipleChoiceAnswer(
+    sectionIdx: number,
+    questionIdx: number,
+    answerIdx: number
+  ): void {
+    const answers = this.answers(sectionIdx, questionIdx);
+    if (answers.length > 2) {
+      answers.removeAt(answerIdx);
+    }
+  }
+
   private parseQuestion(question: FormGroup): Question {
     const type: QuestionType = question.get('type').value;
     switch (type) {
@@ -294,8 +305,7 @@ export class EditComponent
           answer: question.get('answer').value
         };
 
-      case QuestionType.MULTIPLE_CHOICE_SINGLE_RESPONSE:
-      case QuestionType.MULTIPLE_CHOICE_MULTIPLE_RESPONSE:
+      case QuestionType.MULTIPLE_CHOICE:
         const answers: string[] = [];
         (question.get('answer') as FormArray).controls.forEach(
           (answer: FormControl) => {
@@ -304,8 +314,7 @@ export class EditComponent
         );
         return {
           type,
-          multipleResponse:
-            type === QuestionType.MULTIPLE_CHOICE_MULTIPLE_RESPONSE,
+          multipleResponse: false, // TODO
           question: question.get('question').value,
           answer: answers
         };

@@ -16,6 +16,8 @@ export interface QuestionnaireResponse {
 export class QuestionnaireService {
   private questionnaireURI = '/api/v1/questionnaires';
   refresh = new Subject<void>();
+  loading = new Subject<void>();
+  selected = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 
