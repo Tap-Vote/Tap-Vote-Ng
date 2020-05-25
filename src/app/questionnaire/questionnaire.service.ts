@@ -18,6 +18,7 @@ export class QuestionnaireService {
   refresh = new Subject<void>();
   loading = new Subject<void>();
   selected = new Subject<string>();
+  changes = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 

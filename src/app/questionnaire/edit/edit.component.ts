@@ -75,10 +75,12 @@ export class EditComponent
     this.subs.add(
       this.route.data.subscribe((data) => {
         this.changes = false;
+        this.questionnaireService.changes.next(false);
 
         const questionnaire = data['questionnaire'];
         if (questionnaire) {
           this.questionnaireService.selected.next(questionnaire.id);
+          this.questionnaireService.changes.next(this.changes);
           this.questionnaire = questionnaire;
           this.editing = true;
         } else {
@@ -103,17 +105,21 @@ export class EditComponent
       case QuestionType.FREE_RESPONSE:
         return this.fb.group({
           type: this.fb.control(question.type, [this.questionTypeValidator]),
-          question: this.fb.control(question.question, [Validators.required]),
-          answer: this.fb.control(question.answer, [Validators.required])
+          question: this.fb.control(question.question, Validators.required),
+          answer: this.fb.control(question.answer, Validators.required)
         });
 
       case QuestionType.MULTIPLE_CHOICE:
         return this.fb.group({
           type: this.fb.control(question.type, [this.questionTypeValidator]),
-          question: this.fb.control(question.question, [Validators.required]),
+          multipleResponse: this.fb.control(
+            question.multipleResponse,
+            Validators.required
+          ),
+          question: this.fb.control(question.question, Validators.required),
           answer: this.fb.array(
             (question.answer as string[]).map((answer) => {
-              return this.fb.control(answer, [Validators.required]);
+              return this.fb.control(answer, Validators.required);
             })
           )
         });
@@ -123,57 +129,53 @@ export class EditComponent
   initForm(): void {
     if (this.editing) {
       this.questionnaireForm = this.fb.group({
-        name: this.fb.control(this.questionnaire.name, [Validators.required]),
+        name: this.fb.control(this.questionnaire.name, Validators.required),
         sections: this.fb.array(
           this.questionnaire.sections.map((section) => {
             return this.fb.group({
-              name: this.fb.control(section.name, [Validators.required]),
+              name: this.fb.control(section.name, Validators.required),
               questions: this.fb.array(
                 section.questions.map((question) => {
                   return this.buildQuestion(question);
                 }),
-                [Validators.required]
+                Validators.required
               )
             });
           }),
-          [Validators.required]
+          Validators.required
         )
       });
     } else {
       this.questionnaireForm = this.fb.group({
-        name: this.fb.control('', [Validators.required]),
+        name: this.fb.control('', Validators.required),
         sections: this.fb.array(
           [
             this.fb.group({
-              name: this.fb.control('', [Validators.required]),
+              name: this.fb.control('', Validators.required),
               questions: this.fb.array(
                 [
                   this.fb.group({
                     type: this.fb.control(QuestionType.FREE_RESPONSE, [
                       this.questionTypeValidator
                     ]),
-                    question: this.fb.control('', [Validators.required]),
-                    answer: this.fb.control('', [Validators.required])
+                    question: this.fb.control('', Validators.required),
+                    answer: this.fb.control('', Validators.required)
                   })
                 ],
-                [Validators.required]
+                Validators.required
               )
             })
           ],
-          [Validators.required]
+          Validators.required
         )
       });
     }
 
     this.changesSub = this.questionnaireForm.valueChanges.subscribe(() => {
       this.changes = true;
+      this.questionnaireService.changes.next(true);
     });
     this.subs.add(this.changesSub);
-    // this.subs.add(
-    //   this.questionnaireForm.valueChanges.subscribe(() => {
-    //     this.changes = true;
-    //   })
-    // );
   }
 
   validQuestionnaireName(): boolean {
@@ -202,18 +204,18 @@ export class EditComponent
     const sections = this.sections();
     sections.push(
       this.fb.group({
-        name: this.fb.control('', [Validators.required]),
+        name: this.fb.control('', Validators.required),
         questions: this.fb.array(
           [
             this.fb.group({
               type: this.fb.control(QuestionType.FREE_RESPONSE, [
                 this.questionTypeValidator
               ]),
-              question: this.fb.control('', [Validators.required]),
-              answer: this.fb.control('', [Validators.required])
+              question: this.fb.control('', Validators.required),
+              answer: this.fb.control('', Validators.required)
             })
           ],
-          [Validators.required]
+          Validators.required
         )
       })
     );
@@ -227,8 +229,8 @@ export class EditComponent
         type: this.fb.control(QuestionType.FREE_RESPONSE, [
           this.questionTypeValidator
         ]),
-        question: this.fb.control('', [Validators.required]),
-        answer: this.fb.control('', [Validators.required])
+        question: this.fb.control('', Validators.required),
+        answer: this.fb.control('', Validators.required)
       })
     );
   }
@@ -241,10 +243,11 @@ export class EditComponent
         type: this.fb.control(QuestionType.MULTIPLE_CHOICE, [
           this.questionTypeValidator
         ]),
-        question: this.fb.control('', [Validators.required]),
+        multipleResponse: this.fb.control(false, Validators.required),
+        question: this.fb.control('', Validators.required),
         answer: this.fb.array([
-          this.fb.control('', [Validators.required]),
-          this.fb.control('', [Validators.required])
+          this.fb.control('', Validators.required),
+          this.fb.control('', Validators.required)
         ])
       })
     );
@@ -252,7 +255,7 @@ export class EditComponent
 
   onAddMultipleChoiceAnswer(sectionIdx: number, questionIdx: number): void {
     const answers = this.answers(sectionIdx, questionIdx);
-    answers.push(this.fb.control('', [Validators.required]));
+    answers.push(this.fb.control('', Validators.required));
   }
 
   questions(sectionIdx: number): FormArray {
@@ -314,7 +317,7 @@ export class EditComponent
         );
         return {
           type,
-          multipleResponse: false, // TODO
+          multipleResponse: question.get('multipleResponse').value,
           question: question.get('question').value,
           answer: answers
         };
@@ -353,6 +356,7 @@ export class EditComponent
           this.questionnaireService.refresh.next();
           this.questionnaire = questionnaire;
           this.changes = false;
+          this.questionnaireService.changes.next(false);
           this.snackBar.open('Changes saved.', 'Dismiss', {
             duration: 3000
           });
@@ -369,6 +373,7 @@ export class EditComponent
           // TODO: Update questionnaires list...
           this.questionnaireService.refresh.next();
           this.changes = false;
+          this.questionnaireService.changes.next(false);
           this.router.navigate(['questionnaires', response.id]);
           this.snackBar.open('Questionnaire saved.', 'Dismiss', {
             duration: 3000
@@ -397,6 +402,8 @@ export class EditComponent
             () => {
               // TODO: Update questionnaires list...
               this.changes = false;
+              this.loading = true;
+              this.questionnaireService.changes.next(false);
               this.questionnaireService.refresh.next();
               this.router.navigate(['/questionnaires', 'new']);
               this.snackBar.open('Questionnaire deleted.', 'Dismiss', {
@@ -426,7 +433,9 @@ export class EditComponent
 
       return modalRef.afterClosed().pipe(
         tap((confirmed: boolean) => {
+          this.loading = confirmed;
           this.changes = !confirmed;
+          this.questionnaireService.changes.next(!confirmed);
         })
       );
     } else {

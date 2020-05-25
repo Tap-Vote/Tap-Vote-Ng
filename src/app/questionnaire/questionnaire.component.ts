@@ -39,6 +39,7 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   questionnaires: Questionnaire[] = [];
   private subs = new Subscription();
   private selectedQuestionnaireId: string;
+  private changesOnSelectedQuestionnaire: boolean;
 
   constructor(
     private questionnaireService: QuestionnaireService,
@@ -60,6 +61,11 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.questionnaireService.selected.subscribe((id) => {
         this.selectedQuestionnaireId = id;
+      })
+    );
+    this.subs.add(
+      this.questionnaireService.changes.subscribe((changes) => {
+        this.changesOnSelectedQuestionnaire = changes;
       })
     );
   }
@@ -94,7 +100,10 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   }
 
   onEdit(id: string): void {
-    if (this.selectedQuestionnaireId !== id) {
+    if (
+      this.selectedQuestionnaireId !== id &&
+      !this.changesOnSelectedQuestionnaire
+    ) {
       this.selectedQuestionnaireId = id;
       this.questionnaireService.loading.next();
     }

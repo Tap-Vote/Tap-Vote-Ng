@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         this.signup = true;
         this.loginForm.addControl(
           'name',
-          this.fb.control('', [Validators.required])
+          this.fb.control('', Validators.required)
         );
       } else {
         this.signup = false;
