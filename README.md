@@ -1,5 +1,7 @@
 # TapVoteNg
 
+[![Build Status](https://travis-ci.com/Tap-Vote/Tap-Vote-Ng.svg?token=QWjt5E8pwrN3p2oNCqmq&branch=master)](https://travis-ci.com/Tap-Vote/Tap-Vote-Ng)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
 
 ## Development server

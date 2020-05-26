@@ -98,6 +98,7 @@ export class AuthService {
   }
 
   jwt(): string {
+    // TODO: Add a loggedIn method and use build in Firebase handling of token and directly call in interceptor
     return localStorage.getItem(this.localStorageJwtKey);
   }
 
