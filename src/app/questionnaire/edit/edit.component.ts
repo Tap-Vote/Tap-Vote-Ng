@@ -65,10 +65,6 @@ export class EditComponent
     this.subs.add(
       this.questionnaireService.loading.subscribe(() => {
         this.loading = true;
-        if (this.changesSub) {
-          this.subs.remove(this.changesSub);
-          this.changesSub.unsubscribe();
-        }
       })
     );
 
