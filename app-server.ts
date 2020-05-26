@@ -5,7 +5,6 @@ import * as Https from 'https';
 const app = Express();
 
 app.use(Express.static(Path.join(__dirname, '/tap-vote-ng')));
-// app.use(Express.static(Path.join(__dirname, '/dist/tap-vote-ng')));
 
 app.all('/api/*', (originalRequest, originalResponse) => {
   const options: Https.RequestOptions = {
@@ -42,7 +41,6 @@ app.all('/api/*', (originalRequest, originalResponse) => {
 
 app.get('/*', (_request, response) => {
   response.sendFile(Path.join(__dirname, '/tap-vote-ng/index.html'));
-  // response.sendFile(Path.join(__dirname, '/dist/tap-vote-ng/index.html'));
 });
 
 const port = +process.env.PORT || 4200;

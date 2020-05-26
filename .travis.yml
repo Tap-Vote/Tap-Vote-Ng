@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - node
+addons:
+  chrome: stable
+deploy:
+  provider: heroku
+  api_key:
+    secure: k9HXYZrafYJc6MxKV07DIvOj9wdzKVkGkSZZXVQWs8ZRCx1VPu4jjobkxR6KB/CN6V+T8IpQ+wm4+p/EmFicVSfbokXGaOWwAoV5FIX9oxnYhxnfHLXvICpwXK/wSyL/IyLyCQQyzX1r5GaugdytFN2fbo1PLYtmX1KZBP++H3fNEqnux7j9MVtOgRoae4ygjLGFzQQaQIoOFLTDiERpHeAfQE3OHNo8lt4X86w5R4E35XXs8U7GPoeybmNOuetlokHBcYU+YPPjNoEOlI7ttXl3a86twyGLDHh6hx0aSq30N6dj9VtIZmfuP2i4UEmUEpORpyi7z43HSg4fnmauyTH7gE1mQJ8zel17Lohs9hZPB2lAMu9ZRfM9ylVyGcFjLeKMr7iHIMeuOYHcEEcJ+OJlcpRHPEWmfEOMGcDHFdwDxivPW+opruuySV7wLWBCB1EoqKherNuR8D82FGB0rWU0hw4N+2ifKh72+YflLCKuEVcHc5WeOgH7i8ugHPZfnfXBwWCtB/Vhdr0asAL91eBpCUo0i5bhCoRxFCLWMWCZCp6M2gVtizpTJ8diex0oLLJm/drEgRaYo7ZTLcQrTYaDG7Kx4pTHNsW15LLk5E8eTaV8V8YFc9EuETqnMQiV6IW2cNZ48U++T1jBsp1ZBbCNpukaGLLCpcEGMjaUKuY=
+  app: tap-vote-ng
+script:
+  - npm run all-tests
+  - npm run build
