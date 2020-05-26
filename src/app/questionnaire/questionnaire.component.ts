@@ -41,6 +41,7 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
   private selectedQuestionnaireId: string;
   private changesOnSelectedQuestionnaire: boolean;
+  loading = false;
 
   constructor(
     private questionnaireService: QuestionnaireService,
@@ -77,6 +78,10 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   }
 
   fetchQuestionnaires(): void {
+    this.loading = true;
+    if (this.selectedQuestionnaireId) {
+      this.questionnaireService.loading.next();
+    }
     this.questionnaires = [];
     this.questionnaireService
       .getQuestionnaires()
@@ -86,6 +91,7 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
           this.questionnaires.push(questionnaires[id]);
         });
         this.sortQuestionnaires();
+        this.loading = false;
       });
   }
 

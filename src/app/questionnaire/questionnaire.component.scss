@@ -34,3 +34,9 @@ $accent: #9e9e9e;
 .active-new {
   background: darken($accent, 5);
 }
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  padding-top: 3rem;
+}

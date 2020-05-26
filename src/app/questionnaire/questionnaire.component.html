@@ -10,15 +10,20 @@
       >
         New Questionnaire
       </button>
-      <button
-        [routerLink]="'/questionnaires/' + questionnaire.id"
-        routerLinkActive="active"
-        mat-list-item
-        *ngFor="let questionnaire of questionnaires"
-        (click)="onEdit(questionnaire.id)"
-      >
-        {{ questionnaire.name }}
-      </button>
+      <div *ngIf="!loading">
+        <button
+          [routerLink]="'/questionnaires/' + questionnaire.id"
+          routerLinkActive="active"
+          mat-list-item
+          *ngFor="let questionnaire of questionnaires"
+          (click)="onEdit(questionnaire.id)"
+        >
+          {{ questionnaire.name }}
+        </button>
+      </div>
+      <div *ngIf="loading" class="spinner">
+        <mat-spinner></mat-spinner>
+      </div>
     </mat-action-list>
   </mat-sidenav>
   <mat-sidenav-content>

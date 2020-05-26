@@ -85,6 +85,7 @@ export class EditComponent
           this.editing = true;
         } else {
           this.editing = false;
+          this.questionnaireService.selected.next(null);
         }
 
         this.initForm();
@@ -356,6 +357,7 @@ export class EditComponent
           this.questionnaireService.refresh.next();
           this.questionnaire = questionnaire;
           this.changes = false;
+          this.loading = false;
           this.questionnaireService.changes.next(false);
           this.snackBar.open('Changes saved.', 'Dismiss', {
             duration: 3000
