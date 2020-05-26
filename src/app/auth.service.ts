@@ -17,7 +17,7 @@ export interface UserData {
 })
 export class AuthService {
   private app: Firebase.app.App;
-  private firebaseConfig: Object;
+  private firebaseConfig: object;
   private localStorageJwtKey = 'tap-vote-jwt';
   private localStorageUserKey = 'tap-vote-user';
 

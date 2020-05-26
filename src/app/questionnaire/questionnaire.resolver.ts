@@ -24,9 +24,9 @@ export class QuestionnaireResolver implements Resolve<Questionnaire> {
 
   resolve(
     route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
+    state: RouterStateSnapshot
   ): Observable<Questionnaire> | Promise<Questionnaire> | Questionnaire {
-    return this.questionnaireService.getQuestionnaire(route.params['id']).pipe(
+    return this.questionnaireService.getQuestionnaire(route.params.id).pipe(
       tap((questionnaire) => {
         if (!questionnaire) {
           this.router.navigate(['questionnaires', 'new']);

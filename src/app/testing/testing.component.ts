@@ -20,7 +20,7 @@ export class TestingComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
-      this.questionnaire = data['questionnaire']; // TODO: Null check
+      this.questionnaire = data.questionnaire; // TODO: Null check
     });
 
     this.user = this.authService.user();

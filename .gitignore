@@ -772,3 +772,8 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/osx,vim,node,sass,macos,emacs,dotenv,angular,windows,visualstudio,jetbrains+all,visualstudiocode
+
+# Do Not Ignore #
+!ci.protractor.conf.js
+
+# End of Do Not Ignore #

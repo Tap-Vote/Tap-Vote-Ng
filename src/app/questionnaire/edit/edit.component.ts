@@ -77,7 +77,7 @@ export class EditComponent
         this.changes = false;
         this.questionnaireService.changes.next(false);
 
-        const questionnaire = data['questionnaire'];
+        const questionnaire = data.questionnaire;
         if (questionnaire) {
           this.questionnaireService.selected.next(questionnaire.id);
           this.questionnaireService.changes.next(this.changes);

@@ -19,10 +19,8 @@ export class PublishedResolver implements Resolve<Questionnaire> {
 
   resolve(
     route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
+    state: RouterStateSnapshot
   ): Observable<Questionnaire> | Promise<Questionnaire> | Questionnaire {
-    return this.questionnaireService.getPublishedQuestionnaire(
-      route.params['id']
-    );
+    return this.questionnaireService.getPublishedQuestionnaire(route.params.id);
   }
 }
