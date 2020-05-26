@@ -1,43 +1,9 @@
 import * as Express from 'express';
 import * as Path from 'path';
-import * as Https from 'https';
 
 const app = Express();
 
 app.use(Express.static(Path.join(__dirname, '/tap-vote-ng')));
-
-app.all('/api/*', (originalRequest, originalResponse) => {
-  const options: Https.RequestOptions = {
-    host: 'tap-vote-server.herokuapp.com',
-    path: originalRequest.path,
-    method: originalRequest.method,
-    headers: originalRequest.headers
-  };
-
-  const clientRequest = Https.request(options, (proxyResponse) => {
-    proxyResponse.setEncoding('utf-8');
-    originalResponse.writeHead(proxyResponse.statusCode);
-    proxyResponse.on('data', (chunk) => {
-      originalResponse.write(chunk);
-    });
-    proxyResponse.on('close', () => {
-      originalResponse.end();
-    });
-    proxyResponse.on('end', () => {
-      originalResponse.end();
-    });
-  }).on('error', (error) => {
-    console.error(error.message);
-    try {
-      originalResponse.writeHead(500);
-      originalResponse.write(error.message);
-    } catch {
-      // Do nothing
-    }
-    originalResponse.end();
-  });
-  clientRequest.end();
-});
 
 app.get('/*', (_request, response) => {
   response.sendFile(Path.join(__dirname, '/tap-vote-ng/index.html'));
