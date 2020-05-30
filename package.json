@@ -7,7 +7,7 @@
     "build-dev": "ng build && npm run build-app-server",
     "build-app-server": "tsc app-server.ts --outDir dist/",
     "build-storybook": "build-storybook",
-    "dev": "ng serve --proxy-config proxy.conf.json --port 4201",
+    "dev": "ng serve --proxy-config proxy.conf.json --port 4200",
     "e2e": "ng e2e",
     "e2e-headless": "ng e2e --protractor-config='e2e/ci.protractor.conf.js'",
     "lint": "ng lint",
