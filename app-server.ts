@@ -14,7 +14,7 @@ const host = process.env.HOST;
 const callbackFn = (port: number) => {
   console.log(`Tap Vote 🚀 app started on port ${port}`);
 };
-console.log(`HOST: ${host ? host : 'env variable is not set'}`);
+console.log(`\nHOST: ${host ? host : 'env variable is not set'}`);
 console.log(`PORT: ${port ? port : 'env variable is not set'}`);
 host
   ? app.listen(port, host, () => callbackFn(port))
