@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       }
     });
 
-    if (this.authService.jwt()) {
+    if (this.authService.loggedIn()) {
       this.router.navigate(['questionnaires', 'new']);
     }
   }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as Firebase from 'firebase';
 
 import { Questionnaire } from 'src/app/questionnaire/questionnaire.component';
-import { AuthService, UserData } from 'src/app/auth.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'tv-testing',
@@ -11,7 +12,7 @@ import { AuthService, UserData } from 'src/app/auth.service';
 })
 export class TestingComponent implements OnInit {
   questionnaire: Questionnaire;
-  user: UserData;
+  user: Firebase.User;
 
   constructor(
     private route: ActivatedRoute,

@@ -14,9 +14,9 @@ export interface QuestionnaireResponse {
   providedIn: 'root'
 })
 export class QuestionnaireService {
-  // private questionnaireURI = '/api/v1/questionnaires';
-  private questionnaireURI =
-    'https://tap-vote-server.herokuapp.com/api/v1/questionnaires';
+  private questionnaireURI = '/api/v1/questionnaires';
+  // private questionnaireURI =
+  //   'https://tap-vote-server.herokuapp.com/api/v1/questionnaires';
   refresh = new Subject<void>();
   loading = new Subject<void>();
   selected = new Subject<string>();
@@ -38,16 +38,9 @@ export class QuestionnaireService {
     );
   }
 
-  // postQuestionnaire(questionnaire: Questionnaire): Observable<{ key: string }> {
-  //   return this.http.post<{ key: string }>(
-  //     this.questionnaireURI,
-  //     questionnaire
-  //   );
-  // }
-
-  postQuestionnaire2(questionnaire: Questionnaire): Observable<{ id: string }> {
+  postQuestionnaire(questionnaire: Questionnaire): Observable<{ id: string }> {
     return this.http.post<{ id: string }>(
-      `${this.questionnaireURI}2`,
+      `${this.questionnaireURI}`,
       questionnaire
     );
   }

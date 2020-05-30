@@ -26,17 +26,6 @@ export class TokenInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${this.authService.jwt()}`
       }
     });
-    return next.handle(request).pipe(
-      tap((event) => {}),
-      catchError((error) => {
-        if (error instanceof HttpErrorResponse) {
-          const status = error.status;
-          if (status >= 400 && status < 500) {
-            this.authService.logout();
-          }
-        }
-        return throwError(error);
-      })
-    );
+    return next.handle(request);
   }
 }

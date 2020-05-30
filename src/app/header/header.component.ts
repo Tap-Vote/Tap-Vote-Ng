@@ -24,10 +24,7 @@ export class HeaderComponent implements OnInit {
   }
 
   loggedIn(): boolean {
-    if (this.authService.jwt()) {
-      return true;
-    }
-    return false;
+    return this.authService.loggedIn();
   }
 
   onCreateAccount(): void {

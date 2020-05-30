@@ -5,13 +5,6 @@ import * as Firebase from 'firebase/app';
 import 'firebase/auth';
 import { Router } from '@angular/router';
 
-export interface UserData {
-  uid: string;
-  displayName: string;
-  email: string;
-  emailVerified: boolean;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +12,6 @@ export class AuthService {
   private app: Firebase.app.App;
   private firebaseConfig: object;
   private localStorageJwtKey = 'tap-vote-jwt';
-  private localStorageUserKey = 'tap-vote-user';
 
   constructor(private router: Router) {
     this.firebaseConfig = {
@@ -36,22 +28,12 @@ export class AuthService {
 
     this.app.auth().onAuthStateChanged((user) => {
       if (user) {
-        const userData: UserData = {
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          emailVerified: user.emailVerified
-        };
-        localStorage.setItem(
-          this.localStorageUserKey,
-          JSON.stringify(userData)
-        );
-        user.getIdToken().then((jwt) => {
-          localStorage.setItem(this.localStorageJwtKey, jwt);
+        user.getIdToken().then((token) => {
+          localStorage.setItem(this.localStorageJwtKey, token);
         });
       } else {
         localStorage.removeItem(this.localStorageJwtKey);
-        localStorage.removeItem(this.localStorageUserKey);
+        this.router.navigate(['']);
       }
     });
   }
@@ -88,7 +70,7 @@ export class AuthService {
       .auth()
       .signOut()
       .then(() => {
-        // localStorage.removeItem(this.localStorageJwtKey);
+        localStorage.removeItem(this.localStorageJwtKey);
         this.router.navigate(['']);
         return true;
       })
@@ -98,17 +80,15 @@ export class AuthService {
   }
 
   jwt(): string {
-    // TODO: Add a loggedIn method and use build in Firebase handling of token and directly call in interceptor
     return localStorage.getItem(this.localStorageJwtKey);
   }
 
-  user(): UserData {
-    const userData = localStorage.getItem(this.localStorageUserKey);
-    if (userData) {
-      return JSON.parse(userData);
-    } else {
-      return null;
-    }
+  loggedIn(): boolean {
+    return localStorage.getItem(this.localStorageJwtKey) ? true : false;
+  }
+
+  user(): Firebase.User {
+    return this.app.auth().currentUser;
   }
 
   async resetPassword(email: string): Promise<boolean> {

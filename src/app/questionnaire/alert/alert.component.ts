@@ -1,6 +1,6 @@
 // src/app/questionnaire/alert/alert.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({

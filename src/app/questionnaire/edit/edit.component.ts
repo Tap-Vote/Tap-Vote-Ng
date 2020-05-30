@@ -22,12 +22,13 @@ import {
 import { DeleteQuestionnaireModalComponent } from 'src/app/questionnaire/delete-questionnaire-modal/delete-questionnaire-modal.component';
 import { QuestionnaireService } from 'src/app/questionnaire/questionnaire.service';
 import { AlertComponent } from '../alert/alert.component';
-import { Observable, Subscription, VirtualTimeScheduler } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs/operators';
+import * as Firebase from 'firebase';
 
 import { CanComponentDeactivate } from 'src/app/can-deactivate.guard';
-import { AuthService, UserData } from 'src/app/auth.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'tv-edit',
@@ -41,7 +42,7 @@ export class EditComponent
   changes: boolean;
   questionnaire: Questionnaire;
   questionnaireForm: FormGroup;
-  private user: UserData;
+  private user: Firebase.User;
   private subs = new Subscription();
   private changesSub: Subscription;
 
@@ -366,7 +367,7 @@ export class EditComponent
         }
       );
     } else {
-      this.questionnaireService.postQuestionnaire2(questionnaire).subscribe(
+      this.questionnaireService.postQuestionnaire(questionnaire).subscribe(
         (response) => {
           // TODO: Update questionnaires list...
           this.questionnaireService.refresh.next();

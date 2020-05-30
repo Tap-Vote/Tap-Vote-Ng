@@ -1,11 +1,9 @@
 // src/app/questionnaire/questionnaire.component.ts
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { QuestionnaireService } from 'src/app/questionnaire/questionnaire.service';
-import { HttpClient } from '@angular/common/http';
 
 export enum QuestionType {
   FREE_RESPONSE,
@@ -43,22 +41,13 @@ export class QuestionnaireComponent implements OnInit, OnDestroy {
   private changesOnSelectedQuestionnaire: boolean;
   loading = false;
 
-  constructor(
-    private questionnaireService: QuestionnaireService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private http: HttpClient
-  ) {}
+  constructor(private questionnaireService: QuestionnaireService) {}
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
 
   ngOnInit(): void {
-    // this.http.get('/api/v1/catchAll').subscribe((response) => {
-    //   console.log(response);
-    // });
-
     this.fetchQuestionnaires();
     this.subs.add(
       this.questionnaireService.refresh.subscribe(() => {
