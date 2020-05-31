@@ -14,7 +14,7 @@ export interface QuestionnaireResponse {
   providedIn: 'root'
 })
 export class QuestionnaireService {
-  // private questionnaireURI = '/api/v1/questionnaires';
+  // private questionnaireURI = 'http://localhost:5001/api/v1/questionnaires';
   private questionnaireURI =
     'https://tap-vote-server.herokuapp.com/api/v1/questionnaires';
   refresh = new Subject<void>();
